@@ -1,4 +1,4 @@
-server:
+ï»¿server:
   port: 8090
 
 spring:
@@ -18,49 +18,49 @@ spring:
               predicates:
                 # Captura login, registro, oauth, y la config .well-known
                 - Path=/auth/**, /oauth2/**, /login/**, /.well-known/**, /css/**, /js/**, /images/**
-                  # No le ponemos Circuit Breaker al Auth porque si falla Auth, no hay nada que hacer.
+              # No le ponemos Circuit Breaker al Auth porque si falla Auth, no hay nada que hacer.
 
-                # ---------------------------------------------------
-                # RUTA 2: CINE API (Negocio + Resiliencia)
-                # ---------------------------------------------------
+            # ---------------------------------------------------
+            # RUTA 2: CINE API (Negocio + Resiliencia)
+            # ---------------------------------------------------
             - id: cine-api-route
               uri: http://localhost:8080
               predicates:
                 - Path=/api/**
               filters:
-                # ACTIVAR CIRCUIT BREAKER ??
+                # ACTIVAR CIRCUIT BREAKER
                 - name: CircuitBreaker
                   args:
                     name: cineCircuitBreaker
                     # Si falla (TimeOut o Error 500), manda a esta ruta INTERNA del gateway
                     fallbackUri: forward:/fallback/cine
 
-                # Rate Limiter Simple (Opcional): Máximo 10 peticiones por segundo
+                # Rate Limiter Simple (Opcional): Maximo 10 peticiones por segundo
                 # - name: RequestRateLimiter ... (Podemos verlo luego)
-          globalcors:
-            cors-configurations:
-              '[/**]':
-                allowedOrigins: "http://localhost:3000" # Frontend React
-                allowedMethods:
-                  - GET
-                  - POST
-                  - PUT
-                  - DELETE
-                  - OPTIONS
-                allowedHeaders:
-                  - "*"
-                allowCredentials: true
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "http://localhost:3000" # Frontend React
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+            allowedHeaders:
+              - "*"
+            allowCredentials: true
 
 # Configuracion de resiliencia
 resilience4j:
   circuitbreaker:
     instances:
       cineCircuitBreaker:
-        slidingWindowSize: 10       # Mira las últimas 10 peticiones
-        permittedNumberOfCallsInHalfOpenState: 3 # Prueba 3 veces si ya volvió
-        failureRateThreshold: 50    # Si el 50% falla, abre el circuito (Deja de mandar tráfico)
+        slidingWindowSize: 10       # Mira las ultimas 10 peticiones
+        permittedNumberOfCallsInHalfOpenState: 3 # Prueba 3 veces si ya volvio
+        failureRateThreshold: 50    # Si el 50% falla, abre el circuito
         waitDurationInOpenState: 10s # Espera 10s antes de volver a intentar
-        timeoutDuration: 5s         # Si tarda más de 5s, cuenta como fallo
+        timeoutDuration: 5s         # Si tarda mas de 5s, cuenta como fallo
 
 # Configuracion de spring doc
 springdoc:
@@ -71,8 +71,8 @@ springdoc:
     operations-sorter: alpha
     tags-sorter: alpha
 
-      # Mostramos los grupos de endpoints
-    # Definir los grupos (Menú desplegable en la web)
+    # Mostramos los grupos de endpoints
+    # Definir los grupos (Menu desplegable en la web)
     urls:
       - name: '? Auth Server'
         url: /auth/v3/api-docs
