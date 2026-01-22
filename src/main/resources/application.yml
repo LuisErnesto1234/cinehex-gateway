@@ -14,6 +14,8 @@ spring:
           uri: http://${AUTH_HOST:cinehex-auth-server}:${AUTH_SERVER_PORT:9000}  # ← Agregar http://
           predicates:
             - Path=/auth/**, /oauth2/**, /login/**, /.well-known/**, /css/**, /js/**, /images/**
+          filters:
+            - PreserveHostHeader
             
         # ---------------------------------------------------
         # RUTA 2: CINE API (Negocio + Resiliencia)
