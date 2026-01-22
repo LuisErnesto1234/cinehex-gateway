@@ -1,5 +1,5 @@
 ﻿server:
-  port: 8090
+  port: ${SERVER_GATEWAY_PORT}
 
 spring:
   application:
@@ -14,7 +14,7 @@ spring:
             # RUTA 1: AUTH SERVER (Login, Registro, Tokens)
             # ---------------------------------------------------
             - id: auth-server-route
-              uri: http://localhost:9000
+              uri: ${AUTH_HOST}:${AUTH_SERVER_PORT}
               predicates:
                 # Captura login, registro, oauth, y la config .well-known
                 - Path=/auth/**, /oauth2/**, /login/**, /.well-known/**, /css/**, /js/**, /images/**
@@ -24,7 +24,7 @@ spring:
             # RUTA 2: CINE API (Negocio + Resiliencia)
             # ---------------------------------------------------
             - id: cine-api-route
-              uri: http://localhost:8080
+              uri: ${RESOURCE_HOST}:${RESOURCE_PORT}
               predicates:
                 - Path=/api/**
               filters:
