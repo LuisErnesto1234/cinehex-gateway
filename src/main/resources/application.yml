@@ -60,4 +60,4 @@ springdoc:
       - name: 'Auth Server'
         url: /auth/v3/api-docs
       - name: 'Cine API'
-        url: /api/v3/api-docs
+        url: /api/v1/public/v3/api-docs
